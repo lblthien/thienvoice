@@ -33,3 +33,6 @@ logs/
 voices/
 *.wav
 *.mp3
+
+runtime/
+model_cache/
