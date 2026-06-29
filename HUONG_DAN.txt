@@ -1,0 +1,45 @@
+====================================================
+  THIENVOICE - HƯỚNG DẪN SỬ DỤNG
+====================================================
+
+
+TRÊN MÁY GỐC (máy đang cài sẵn):
+------------------------------------
+
+  Bước 1: Double-click vào file:
+            build_portable.bat
+
+  Đợi đến khi hiện chữ "HOAN TAT" thì xong.
+  (Có thể mất 5-15 phút lần đầu)
+
+  Bước 2: Copy TOÀN BỘ thư mục này sang máy mới.
+  (USB, ổ cứng, hoặc mạng LAN đều được)
+  Dung lượng khoảng 12-13 GB.
+
+
+TRÊN MÁY MỚI:
+------------------------------------
+
+  Chỉ cần double-click vào file:
+            run_thienvoice.bat
+
+  Trình duyệt sẽ tự mở tại địa chỉ:
+            http://localhost:7860
+
+  Không cần cài Python.
+  Không cần cài gì thêm.
+
+
+LƯU Ý:
+------------------------------------
+
+  - Máy mới phải dùng Windows 64-bit.
+  - Lần đầu chạy có thể mất 1-2 phút để khởi động.
+  - Mỗi lần tạo giọng đọc mất khoảng 3-7 phút
+    (máy không có card màn hình NVIDIA).
+  - Để tắt chương trình: đóng cửa sổ đen lại.
+
+
+====================================================
+  Hỗ trợ: Nguyễn Đức Thiện - 0906 000 040
+====================================================
