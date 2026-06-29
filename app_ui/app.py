@@ -206,8 +206,10 @@ def fn_system_check():
     except ImportError:
         lines.append("PyTorch: Chưa cài")
 
-    # Model cache
-    cache = Path.home() / ".cache" / "huggingface" / "hub" / "models--k2-fsa--OmniVoice"
+    # Model cache — ưu tiên HF_HOME nếu đang dùng portable
+    import os as _os
+    hf_hub = Path(_os.environ.get("HF_HOME", str(Path.home() / ".cache" / "huggingface"))) / "hub"
+    cache = hf_hub / "models--k2-fsa--OmniVoice"
     lines.append(f"Model cache: {'Có' if cache.exists() else 'Chưa tải'} ({cache})")
 
     # Dataset
