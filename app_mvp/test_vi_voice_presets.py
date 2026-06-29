@@ -1,4 +1,4 @@
-"""Test đầy đủ 6 voice preset tiếng Việt từ STBack23/omnivoice-vi.
+﻿"""Test đầy đủ 6 voice preset tiếng Việt từ STBack23/omnivoice-vi.
 
 Cách dùng:
     # Test 1 giọng
@@ -39,7 +39,7 @@ from app_mvp.vi_voice_profiles import VI_VOICE_SLUGS, slug_to_display_name
 from app_mvp.core_engine import generate_preset_tts
 
 TEST_TEXT = (
-    "Xin chào, đây là bản kiểm tra giọng đọc tiếng Việt bằng OmniVoice. "
+    "Xin chào, đây là bản kiểm tra giọng đọc tiếng Việt bằng ThienVoice. "
     "Hôm nay tôi sẽ giới thiệu một dự án bất động sản nổi bật tại khu Nam Sài Gòn."
 )
 
@@ -158,3 +158,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

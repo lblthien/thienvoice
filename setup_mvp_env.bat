@@ -1,9 +1,9 @@
-@echo off
+﻿@echo off
 chcp 65001 >nul
 setlocal
 
 echo =====================================================
-echo  OmniVoice MVP - Setup Environment (Python 3.12)
+echo  ThienVoice - Setup Environment (Python 3.12)
 echo =====================================================
 echo.
 
@@ -132,3 +132,4 @@ echo  Hoac chay day du test:
 echo    run_core_test.bat
 echo =====================================================
 pause
+

@@ -1,4 +1,4 @@
-# OmniVoice MVP — Trạng thái Phase 1
+﻿# ThienVoice — Trạng thái Phase 1
 
 **Cập nhật**: 2026-06-27  
 **Phase**: 1 — Core Engine Only (không UI, không portable)
@@ -242,3 +242,4 @@ UserWarning: huggingface_hub cache-system uses symlinks by default but your mach
 - Phase 2: Tạo UI đơn giản (Tkinter hoặc Gradio local)
 - Clone Voice: Đặt file `voices/sample.wav` và test
 - Tối ưu tốc độ: Nếu máy có GPU NVIDIA hỗ trợ CUDA thực, sẽ nhanh hơn ~10-20x
+

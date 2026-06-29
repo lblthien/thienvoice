@@ -1,4 +1,4 @@
-"""Tải voice preset tuong_vy từ dataset STBack23/omnivoice-vi.
+﻿"""Tải voice preset tuong_vy từ dataset STBack23/omnivoice-vi.
 
 Tải toàn bộ dataset về assets/omnivoice-vi/ (nhỏ, ~vài MB).
 Sau khi tải xong, các file tuong_vy nằm tại:
@@ -93,7 +93,7 @@ def verify_tuong_vy():
 
 def main():
     print("=" * 60)
-    print(f"OmniVoice VI — Download voice preset: {VOICE_NAME}")
+    print(f"ThienVoice VI — Download voice preset: {VOICE_NAME}")
     print("=" * 60)
 
     # Neu da co day du file thi khong tai lai
@@ -119,3 +119,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

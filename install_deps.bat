@@ -1,7 +1,7 @@
-@echo off
+﻿@echo off
 chcp 65001 >nul
 echo =====================================================
-echo  OmniVoice MVP - Cai dat Dependencies
+echo  ThienVoice - Cai dat Dependencies
 echo =====================================================
 echo.
 echo Python hien tai:
@@ -47,3 +47,4 @@ echo =====================================================
 echo  XONG! Gio co the chay: run_core_test.bat
 echo =====================================================
 pause
+

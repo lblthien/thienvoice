@@ -1,4 +1,4 @@
-"""OmniVoice MVP Core Engine.
+﻿"""ThienVoice Core Engine.
 
 Provides three simple functions:
     generate_tts()          - Text to Speech (tiếng Việt)
@@ -115,6 +115,42 @@ _VI_TO_INSTRUCT = {
     "giong han": "korean accent",
     "giong nga": "russian accent",
     "giong trung quoc": "chinese accent",
+    # --- Tiếng Anh thông dụng ---
+    # Ghép từ trước (sort by length sẽ ưu tiên cụm dài hơn từ đơn)
+    "young adult": "young adult",
+    "old man": "elderly",
+    "old woman": "elderly",
+    "young man": "young adult",
+    "young woman": "young adult",
+    "middle aged": "middle-aged",
+    "middle-aged": "middle-aged",
+    "very low pitch": "very low pitch",
+    "very high pitch": "very high pitch",
+    "low pitch": "low pitch",
+    "high pitch": "high pitch",
+    "moderate pitch": "moderate pitch",
+    # Từ đơn tuổi
+    "elderly": "elderly",
+    "old": "elderly",
+    "teenager": "teenager",
+    "teen": "teenager",
+    "child": "child",
+    "kid": "child",
+    # Pitch từ đơn
+    "whisper": "whisper",
+    "deep": "low pitch",
+    "low": "low pitch",
+    "high": "high pitch",
+    # Accent tiếng Anh
+    "british": "british accent",
+    "american": "american accent",
+    "australian": "australian accent",
+    "indian": "indian accent",
+    "japanese": "japanese accent",
+    "korean": "korean accent",
+    "russian": "russian accent",
+    "chinese": "chinese accent",
+    "canadian": "canadian accent",
 }
 
 # Fallback: từ đơn cho nam/nữ nếu không có "giọng nam/nữ"
@@ -129,6 +165,19 @@ _VI_GENDER_FALLBACK = {
     " nu ": "female",
     "nu,": "female",
     "(nu)": "female",
+    # tiếng Anh
+    " man": "male",
+    "man ": "male",
+    "man,": "male",
+    " male": "male",
+    "male ": "male",
+    " woman": "female",
+    "woman ": "female",
+    "woman,": "female",
+    " female": "female",
+    "female ": "female",
+    " girl": "female",
+    " boy": "male",
 }
 
 _model_cache: Optional[OmniVoice] = None
@@ -206,17 +255,17 @@ def _vi_description_to_instruct(description: str) -> Optional[str]:
 
     # Fallback gender nếu chưa tìm được
     if gender is None:
-        desc_padded = " " + description.lower() + " "
-        for pattern, en_val in _VI_GENDER_FALLBACK.items():
-            if pattern in desc_padded:
-                gender = en_val
-                break
-        if gender is None:
-            words = description.lower().split()
-            if "nam" in words:
-                gender = "male"
-            elif "nữ" in words:
-                gender = "female"
+        import re as _re
+        dl = description.lower()
+        # Dùng word-boundary để tránh "man" khớp trong "woman"
+        if _re.search(r'\b(woman|female|girl|nu\b)', dl):
+            gender = "female"
+        elif _re.search(r'\b(man|male|boy|nam\b)', dl):
+            gender = "male"
+        elif _re.search(r'\bnữ\b', dl):
+            gender = "female"
+        elif _re.search(r'\bnam\b', dl):
+            gender = "male"
 
     matched = ([gender] if gender else []) + rest
 
@@ -413,6 +462,7 @@ def generate_voice_design(
     speed: str = "normal",
     output_path: str = "outputs/design_output.wav",
     model_name: str = DEFAULT_MODEL,
+    _instruct_direct: Optional[str] = None,
 ) -> str:
     """Tạo audio với giọng thiết kế từ mô tả tiếng Việt.
 
@@ -442,19 +492,24 @@ def generate_voice_design(
     _ensure_output_dir(output_path)
     model = load_model(model_name)
     speed_val = _resolve_speed(speed)
-    instruct = _vi_description_to_instruct(voice_description)
+    instruct = _instruct_direct if _instruct_direct is not None else _vi_description_to_instruct(voice_description)
 
     logger.info(
-        "[Design] text='%s...' desc='%s' → instruct='%s' speed=%s",
+        "[Design] text='%s...' desc='%s' -> instruct='%s' speed=%s",
         text[:60], voice_description, instruct, speed_val,
     )
     audios = model.generate(
         text=text,
-        language="vi",
+        language="Vietnamese",
         instruct=instruct,
         speed=speed_val,
+        num_step=32,
+        guidance_scale=2.0,
+        class_temperature=0.4,
+        postprocess_output=True,
     )
     sf.write(output_path, audios[0], model.sampling_rate)
     abs_path = os.path.abspath(output_path)
     logger.info("[Design] Đã lưu: %s", abs_path)
     return abs_path
+

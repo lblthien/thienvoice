@@ -1,4 +1,4 @@
-"""Test nhanh 2 giọng Việt: tuong_vy và ban_mai.
+﻿"""Test nhanh 2 giọng Việt: tuong_vy và ban_mai.
 
 Output:
     outputs/vi_presets/tuong_vy.wav
@@ -31,7 +31,7 @@ from app_mvp.core_engine import generate_preset_tts
 TEST_VOICES = ["tuong_vy", "ban_mai"]
 
 TEST_TEXT = (
-    "Xin chào, đây là bản kiểm tra giọng đọc tiếng Việt bằng OmniVoice. "
+    "Xin chào, đây là bản kiểm tra giọng đọc tiếng Việt bằng ThienVoice. "
     "Hôm nay tôi sẽ giới thiệu một dự án bất động sản nổi bật tại khu Nam Sài Gòn."
 )
 
@@ -81,3 +81,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

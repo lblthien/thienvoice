@@ -1,4 +1,4 @@
-# OmniVoice MVP — Hướng dẫn sử dụng
+﻿# ThienVoice — Hướng dẫn sử dụng
 
 ## Chạy giao diện Desktop (Phase 2)
 
@@ -110,7 +110,7 @@ Xem kết quả: [`VI_VOICES_STATUS.md`](VI_VOICES_STATUS.md)
 
 ## Tổng quan repo
 
-Repo này là **OmniVoice** — model TTS đa ngôn ngữ (600+ ngôn ngữ) của Xiaomi AI Lab / Next-gen Kaldi team, sử dụng kiến trúc Diffusion Language Model.
+Repo này là **ThienVoice** — model TTS đa ngôn ngữ (600+ ngôn ngữ) của Xiaomi AI Lab / Next-gen Kaldi team, sử dụng kiến trúc Diffusion Language Model.
 
 - **Framework**: Python thuần + HuggingFace Transformers + Gradio (cho demo web)  
 - **Model**: `k2-fsa/OmniVoice` trên HuggingFace Hub (~3–5 GB, tải tự động lần đầu)  
@@ -325,3 +325,4 @@ Model ~3–5 GB cần tải từ internet. Sau lần đầu, model được cach
 
 ### 6. Audio output bị lỗi / không nghe được
 Thử giảm `num_step=16`, hoặc xem log trong `logs/` để debug.
+

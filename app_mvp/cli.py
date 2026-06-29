@@ -1,4 +1,4 @@
-"""OmniVoice MVP CLI — test nhanh từ command line.
+﻿"""ThienVoice CLI — test nhanh từ command line.
 
 Cách dùng:
 
@@ -120,7 +120,7 @@ def cmd_design(args):
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="python app_mvp/cli.py",
-        description="OmniVoice MVP — TTS / Clone / Design tiếng Việt",
+        description="ThienVoice — TTS / Clone / Design tiếng Việt",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument(
@@ -250,3 +250,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

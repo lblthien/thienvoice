@@ -145,35 +145,29 @@ def fn_clone(text: str, ref_audio, ref_transcript: str, speed_label: str):
 # ---------------------------------------------------------------------------
 # TAB C — Voice Design [EXPERIMENTAL]
 # ---------------------------------------------------------------------------
-def fn_design(text: str, description: str, speed_label: str):
+def fn_design(text: str, gender: str, age: str, pitch: str, style: str, speed_label: str):
     if not text or not text.strip():
         yield "Vui lòng nhập văn bản.", None, ""
         return
-    if not description or not description.strip():
-        yield "Vui lòng nhập mô tả giọng.", None, ""
-        return
 
+    instruct = _build_instruct(gender, age, pitch, style)
     speed = _speed_key(speed_label)
     out   = str(OUTPUTS_DIR / f"ui_design_{_ts()}.wav")
+    preview = f"Keyword gửi model: [{instruct}]" if instruct else "Chưa chọn thuộc tính — model tự chọn giọng"
 
-    yield f"⏳ Đang tạo giọng thiết kế...\n(Mô tả: {description.strip()})\n(CPU có thể mất vài phút)", None, ""
+    yield f"⏳ Đang tạo giọng...\n{preview}\n(CPU có thể mất vài phút)", None, ""
 
     try:
         from app_mvp.core_engine import generate_voice_design
         path = generate_voice_design(
             text=text.strip(),
-            voice_description=description.strip(),
+            voice_description="",          # không dùng VI→EN mapper
             speed=speed,
             output_path=out,
+            _instruct_direct=instruct,     # truyền thẳng keyword tiếng Anh
         )
         log.info("Design OK: %s", path)
-        yield f"✅ Hoàn tất!\nFile: {path}", path, path
-    except ValueError as e:
-        log.error("Design ValueError: %s", e)
-        yield (
-            f"❌ Lỗi mô tả giọng: {e}\n\n"
-            "Gợi ý: dùng 'giong nam, truong thanh' hoặc 'giong nu, thanh nien'", None, ""
-        )
+        yield f"✅ Hoàn tất!\n{preview}\nFile: {path}", path, path
     except Exception as e:
         log.exception("Design error")
         yield f"❌ Lỗi: {type(e).__name__}: {e}", None, ""
@@ -493,6 +487,28 @@ footer { display: none !important; }
     background: transparent !important;
 }
 
+/* ══════════════════════════════════════
+   VOICE DESIGN — tag-style radio buttons
+   ══════════════════════════════════════ */
+.tag-group fieldset { border: none !important; padding: 0 !important; margin: 0 !important; }
+.tag-group fieldset > div { display: flex !important; flex-wrap: wrap !important; gap: 6px !important; padding: 0 !important; }
+.tag-group label {
+    display: inline-flex !important; align-items: center !important; gap: 0 !important;
+    padding: 6px 16px !important; border-radius: 20px !important;
+    border: 1.5px solid #e2e8f0 !important; background: #f8fafc !important;
+    color: #64748b !important; cursor: pointer !important;
+    font-size: 12.5px !important; font-weight: 500 !important;
+    transition: border-color 0.12s, background 0.12s, color 0.12s !important;
+    line-height: 1 !important;
+}
+.tag-group label:hover { border-color: #e63946 !important; color: #e63946 !important; }
+.tag-group input[type="radio"] { display: none !important; }
+.tag-group label:has(input[type="radio"]:checked) {
+    background: #e63946 !important; border-color: #e63946 !important;
+    color: #fff !important; font-weight: 600 !important;
+}
+.tag-group span.wrap { display: none !important; }
+
 /* ── Experimental warning ── */
 .exp-warn {
     background: #fff8e1;
@@ -506,6 +522,27 @@ footer { display: none !important; }
 """
 
 _SPEED_INFO = "Bình thường = 1.0x  ·  Chậm = 0.85x  ·  Nhanh = 1.15x"
+
+# Voice Design — tag labels → OmniVoice keywords
+_DESIGN_GENDER = {"Nam": "male", "Nữ": "female"}
+_DESIGN_AGE    = {
+    "Trẻ em": "child", "Thiếu niên": "teenager",
+    "Thanh niên": "young adult", "Trưởng thành": "middle-aged", "Người già": "elderly",
+}
+_DESIGN_PITCH  = {
+    "Rất thấp": "very low pitch", "Thấp": "low pitch", "Vừa": "moderate pitch",
+    "Cao": "high pitch", "Rất cao": "very high pitch",
+}
+_DESIGN_STYLE  = {"Thì thầm": "whisper"}
+
+
+def _build_instruct(gender, age, pitch, style) -> str | None:
+    parts = []
+    if gender: parts.append(_DESIGN_GENDER.get(gender, gender))
+    if age:    parts.append(_DESIGN_AGE.get(age, age))
+    if pitch:  parts.append(_DESIGN_PITCH.get(pitch, pitch))
+    if style:  parts.append(_DESIGN_STYLE.get(style, style))
+    return ", ".join(parts) if parts else None
 
 _HEADER_HTML = """
 <div class="tv-hdr">
@@ -655,14 +692,29 @@ def build_ui() -> gr.Blocks:
                                     lines=4,
                                     placeholder="Nhập văn bản cần đọc...",
                                 )
-                                design_desc = gr.Textbox(
-                                    label="Mô tả giọng",
-                                    lines=2,
-                                    placeholder=(
-                                        "Ví dụ:  giong nam, truong thanh\n"
-                                        "         giong nu, thanh nien, am cao"
-                                    ),
-                                    info="Từ khóa: giong nam · giong nu · truong thanh · thanh nien · am cao · am thap · thi tham",
+                                design_gender = gr.Radio(
+                                    label="Giới tính",
+                                    choices=list(_DESIGN_GENDER.keys()),
+                                    value=None,
+                                    elem_classes="tag-group",
+                                )
+                                design_age = gr.Radio(
+                                    label="Độ tuổi",
+                                    choices=list(_DESIGN_AGE.keys()),
+                                    value=None,
+                                    elem_classes="tag-group",
+                                )
+                                design_pitch = gr.Radio(
+                                    label="Độ cao giọng",
+                                    choices=list(_DESIGN_PITCH.keys()),
+                                    value=None,
+                                    elem_classes="tag-group",
+                                )
+                                design_style = gr.Radio(
+                                    label="Phong cách",
+                                    choices=list(_DESIGN_STYLE.keys()),
+                                    value=None,
+                                    elem_classes="tag-group",
                                 )
                                 design_speed = gr.Dropdown(
                                     label="Tốc độ",
@@ -674,16 +726,17 @@ def build_ui() -> gr.Blocks:
                             with gr.Column(scale=2):
                                 design_status = gr.Textbox(
                                     label="Trạng thái",
-                                    lines=3,
+                                    lines=4,
                                     interactive=False,
                                     elem_classes="status-box",
-                                    value="Sẵn sàng — nhập văn bản và mô tả giọng",
+                                    value="Chọn thuộc tính giọng rồi nhấn Tạo thử",
                                 )
                                 design_audio = gr.Audio(label="Nghe thử", type="filepath")
                                 design_path  = gr.Textbox(label="File đã lưu", interactive=False)
 
                         design_btn.click(fn_design,
-                                         [design_text, design_desc, design_speed],
+                                         [design_text, design_gender, design_age,
+                                          design_pitch, design_style, design_speed],
                                          [design_status, design_audio, design_path])
 
                     # ============================================================

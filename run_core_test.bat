@@ -1,9 +1,9 @@
-@echo off
+﻿@echo off
 chcp 65001 >nul
 setlocal
 
 echo =====================================================
-echo  OmniVoice MVP - Core Engine Test
+echo  ThienVoice - Core Engine Test
 echo  Chay tu thu muc: %CD%
 echo =====================================================
 echo.
@@ -183,3 +183,4 @@ echo.
 echo  Mo file WAV bang Windows Media Player hoac VLC.
 echo =====================================================
 pause
+

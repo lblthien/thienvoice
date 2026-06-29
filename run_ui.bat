@@ -1,9 +1,9 @@
-@echo off
+﻿@echo off
 chcp 65001 >nul
 setlocal
 
 echo =====================================================
-echo  OmniVoice MVP - Giao dien Desktop
+echo  ThienVoice - Giao dien Desktop
 echo =====================================================
 echo.
 
@@ -37,3 +37,4 @@ echo.
 .venv\Scripts\python.exe app_ui\app.py
 
 pause
+

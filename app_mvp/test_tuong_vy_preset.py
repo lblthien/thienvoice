@@ -1,4 +1,4 @@
-"""Test voice preset tuong_vy từ dataset STBack23/omnivoice-vi.
+﻿"""Test voice preset tuong_vy từ dataset STBack23/omnivoice-vi.
 
 Pipeline:
   1. Load voice.pt (dict) → VoiceClonePrompt
@@ -35,7 +35,7 @@ OUTPUT_PATH = _REPO_ROOT / "outputs" / "tuong_vy_test.wav"
 MODEL_NAME  = "k2-fsa/OmniVoice"
 
 TEST_TEXT = (
-    "Xin chào, đây là bản kiểm tra giọng đọc tiếng Việt bằng OmniVoice. "
+    "Xin chào, đây là bản kiểm tra giọng đọc tiếng Việt bằng ThienVoice. "
     "Hôm nay tôi sẽ giới thiệu một dự án bất động sản nổi bật tại khu Nam Sài Gòn."
 )
 
@@ -220,3 +220,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

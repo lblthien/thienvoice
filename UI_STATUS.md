@@ -1,4 +1,4 @@
-# OmniVoice MVP — Trạng thái Phase 2 UI
+﻿# ThienVoice — Trạng thái Phase 2 UI
 
 **Ngày**: 2026-06-27  
 **Phase**: 2 — Desktop UI (Gradio local)
@@ -124,3 +124,4 @@ Không nhân bản logic model. Tất cả gọi qua `app_mvp/core_engine.py`.
 3. **Bundle model** hoặc hướng dẫn tải lần đầu
 4. **Tạo icon** và shortcut desktop
 5. **Test trên máy khác** không có Python
+
