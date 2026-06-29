@@ -19,12 +19,17 @@ build/
 /data/
 /download
 /local/
-/run*
 example.py
 results/
 examples/data*
 examples/download*
 examples/exp*
 .claude/
-*.wav
 *.jsonl
+
+# ThienVoice — bỏ qua file sinh ra lúc chạy
+outputs/
+logs/
+voices/
+*.wav
+*.mp3
